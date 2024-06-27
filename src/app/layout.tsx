@@ -1,8 +1,12 @@
 import "~/styles/globals.css";
+import "@uploadthing/react/styles.css";
 
 import { GeistSans } from "geist/font/sans";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TopNav } from "./_components/TopNav";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "./api/uploadthing/core";
 
 export const metadata = {
   title: "Create T3 Gallery",
@@ -17,6 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
+      <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
       <html lang="en" className={`${GeistSans.variable} flex flex-col gap-4`}>
         <body>
           <TopNav />
