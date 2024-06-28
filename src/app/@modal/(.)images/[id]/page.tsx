@@ -1,12 +1,13 @@
 import React from "react";
 import { getImage } from "~/server/db/queries/images";
+import { Modal } from "./modal";
+import FullPageImagePreview from "~/components/fullImage";
 
-async function PhotoModal({ params: { id } }: { params: { id: string } }) {
-  const image = await getImage({ id: parseInt(id) });
+function PhotoModal({ params: { id } }: { params: { id: string } }) {
   return (
-    <div>
-      <img src={image.url} alt={image.name} className="w-36 object-contain" />
-    </div>
+    <Modal>
+      <FullPageImagePreview id={id} />
+    </Modal>
   );
 }
 
