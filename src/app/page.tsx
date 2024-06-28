@@ -9,11 +9,11 @@ async function Images() {
   if (!user.userId) return <div>no user</div>;
   const images = await getImages({ userId: user.userId });
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap justify-center gap-4">
       {images.map((v) => (
         <div key={v.id.toString() + v.url} className="w-48">
-          <img src={v.url} alt="image" />
-          <span>{v.name}</span>
+          <img src={v.url} alt="image" className="w-48 object-contain" />
+          <span className="break-words">{v.name}</span>
         </div>
       ))}
       {images.length == 0 && <div>No images. Upload something.</div>}
@@ -28,7 +28,9 @@ export default async function HomePage() {
         <div className="text-2xl font-semibold">Please sign in </div>
       </SignedOut>
       <SignedIn>
-        <Images />
+        <div className="container p-6">
+          <Images />
+        </div>
       </SignedIn>
     </main>
   );
