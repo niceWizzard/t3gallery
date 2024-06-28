@@ -1,13 +1,13 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Link from "next/link";
-import { db } from "~/server/db";
+import { auth, getAuth } from "@clerk/nextjs/server";
+import { getImages } from "~/server/db/queries/images";
 
 export const dynamic = "force-dynamic";
 
 async function Images() {
-  const images = await db.query.images.findMany({
-    orderBy: (model, { desc }) => desc(model.id),
-  });
+  const user = auth();
+  if (!user.userId) return <div>no user</div>;
+  const images = await getImages({ userId: user.userId });
   return (
     <div className="flex flex-wrap gap-4">
       {images.map((v) => (
@@ -16,6 +16,7 @@ async function Images() {
           <span>{v.name}</span>
         </div>
       ))}
+      {images.length == 0 && <div>No images. Upload something.</div>}
     </div>
   );
 }
